@@ -25,7 +25,7 @@ const SearchService = {
                 return result;
             })
             .catch(() => {
-                throw new Error('Error fetching search results.')
+                throw new Error('Error fetching search results.');
             });
         return response;
     },
@@ -42,7 +42,7 @@ const SearchService = {
                 return data.suggestions;
             })
             .catch(() => {
-                throw new Error('Error fetching suggestions.')
+                throw new Error('Error fetching suggestions.');
             });
         return response;
     }

@@ -147,7 +147,7 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
             )}
             {inputValue.trim().length > 2 && hasError && (
                 <ul ref={listRef} className="suggestions-list unselectable" id="autocomplete-list" role="listbox">
-                    Error retrieving suggestions.
+                    <b>Error retrieving suggestions.</b>
                 </ul>
             )}
         </div>
