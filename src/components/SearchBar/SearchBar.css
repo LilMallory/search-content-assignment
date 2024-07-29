@@ -1,0 +1,91 @@
+.input-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5vh 13.5%;
+    box-shadow: 0px 15px 12px -19px gray;
+    height: 50px;
+    
+    .input-box {
+        height: 56px;
+        width: 93%;
+        border-radius: 4px;
+        padding: 10px;
+        border: 0.5px solid #BEBEBE;
+        white-space: nowrap;
+        overflow: hidden;
+        flex: 1 1;
+        font-size: 1rem;
+    
+        &:focus {
+            border: 1px solid #1C76D5;
+            outline: none;
+        }
+    
+        &::-webkit-search-cancel-button{
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' stroke='grey' stroke-width='2'/></svg>");
+        }
+    }
+
+    .search-button {
+        font-family: 'Open Sans';
+        display: flex;
+        font-size: 1.125rem;
+        height: 56px;
+        align-items: center;
+        justify-content: center;
+        gap: 0.30vw;
+        background: #1c76d5;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        padding: 0 1vw;
+        min-width: fit-content;
+        min-height: fit-content;
+        transition: background-color .55s ease-in-out;
+        -moz-transition: background-color .55s ease-in-out;
+        -webkit-transition: background-color .55s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #3997fc;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.suggestions-list {
+    width: 100%;
+    background: white;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    font-family: 'Open Sans';
+    font-size: 0.95rem;
+    z-index: 1;
+
+    &.unselectable {
+        user-select:none;
+        margin: 2.17vh;
+    }
+
+    li {
+        padding: 8px;
+        cursor: pointer;
+    
+        &:hover, &[aria-selected=true] {
+            background-color: #e9e9e9;
+        }
+
+        & > p {
+            font-family: bold;
+        }
+    }
+  }
