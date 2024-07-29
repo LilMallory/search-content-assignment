@@ -41,7 +41,7 @@ This will serve the application on http://localhost:3000. Open your browser and 
     npm run test
 
 The script is configured to run without having to serve the application locally. The tests are simulated on Google Chrome, Microsoft Edge, Mobile Chrome, and Chromium.
-A html is generated on each run and will automatically be displayed after the test is complete. 
+A html report is generated on each run and will be automatically displayed after the test is complete. 
 
 ![alt text](image.png)
 
