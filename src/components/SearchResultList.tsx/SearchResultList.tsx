@@ -41,6 +41,7 @@ const SearchResultList = ({ query }: SearchResultListProps) => {
                     setIsLoading(false);
                     setHasError(false);
                 }).catch(() => {
+                    setIsLoading(false);
                     setHasError(true);
                     setResultList([]);
                 });
