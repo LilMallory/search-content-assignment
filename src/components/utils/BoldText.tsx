@@ -1,5 +1,7 @@
 import React from "react";
 
+// return span element in bold for input
+// setting matchWholeWords to true will ensure entire words are fully bold, rather than partially bolded
 export function BoldedText(text: string, inputTextToBold: string, matchWholeWords: boolean) {
     const regex = matchWholeWords ? new RegExp(`\\b\\w*${inputTextToBold}\\w*\\b`, "ig") : new RegExp(inputTextToBold, "ig");
     const textArray = text.split(regex);

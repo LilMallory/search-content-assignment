@@ -1,4 +1,4 @@
-// get similarity score by number of occurences of query in result
+// get similarity score by number of occurences of query string in result string
 export function getSimilarity(result: string, query: string) {
     result = result.toLowerCase();
     query = query.toLowerCase();

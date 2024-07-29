@@ -19,14 +19,14 @@ export type SearchBarProps = {
 }
 
 const SearchBar = ({ onSearch } : SearchBarProps) => {
-
-    const [ inputValue, setInputValue ] = useState("");
-    const [ suggestions, setSuggestions ] = useState<string[]>([]);
-    const [ selectedIndex, setSelectedIndex ] = useState(-1);
+    const [ inputValue, setInputValue ] = useState(""); // stores input value
+    const [ suggestions, setSuggestions ] = useState<string[]>([]); // stores suggestion in a string list
+    const [ selectedIndex, setSelectedIndex ] = useState(-1); // stores current index for key press selection of suggestion options
     const [ hasError, setHasError ] = useState(false);
-    const listRef = useRef<HTMLUListElement>(null);
-    const possibleSuggestionRef = useRef(new Array());
+    const listRef = useRef<HTMLUListElement>(null); // suggestion list reference
+    const possibleSuggestionRef = useRef(new Array()); // stores all possible suggestions
 
+    // filters suggestion based on number of occurence of input string in suggestion string
     const getFilteredSuggestions = useCallback(async () => {
         const trimmedInputValue = inputValue.trim();
         if (trimmedInputValue.length > 2) {
@@ -36,7 +36,7 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
                     const filteredSuggestions = possibleSuggestionRef.current.filter(suggestion => suggestion.toLowerCase().includes(trimmedInputValue.toLowerCase()));
                     filteredSuggestions.sort((a, b) => {
                         return getSimilarity(b, trimmedInputValue) - getSimilarity(a, trimmedInputValue);
-                    }).slice(0, 6);
+                    }).slice(0, 6); // sorts by number of occurrence and get top 6 results only
                     setSuggestions(filteredSuggestions);
                     setHasError(false);
                 }).catch(() => {
@@ -52,18 +52,20 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
         getFilteredSuggestions();
     }, [inputValue, getFilteredSuggestions])
 
-    const optionHeight = listRef?.current?.children[0]?.clientHeight
-
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value: string = (e.target as HTMLInputElement).value;
         setInputValue(value);
     };
 
-    function clearSuggestions() {
-        setTimeout(() => {
-            setSuggestions([]);
-            setSelectedIndex(-1);
-        }, 200);
+    // set input as search
+    function setSearchValue(value: string) {
+        let searchValue = value;
+        if (!value || value === inputValue) {
+            searchValue = inputValue.trim();
+            setInputValue(searchValue);
+        }
+        onSearch(searchValue);
+        clearSuggestions();
     }
 
     const handleSuggestionClick = (value: string) => {
@@ -71,6 +73,19 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
         setSearchValue(value);
     }
 
+    function clearSuggestions() {
+        // delay added to ensure suggestion option can be registered as an input when selected, before being cleared
+        setTimeout(() => {
+            setSuggestions([]);
+            setSelectedIndex(-1);
+        }, 200);
+    }
+
+    /* Key Press Functions - Start */
+    // get height of an option if suggestion list, if scrolling of options is required
+    const optionHeight = listRef?.current?.children[0]?.clientHeight;
+
+    // on enter
     function selectOption(index: number) {
         if (index > -1) {
             setInputValue(suggestions[index]);
@@ -78,6 +93,7 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
         setSearchValue(suggestions[index]);
     }
 
+    // on arrowUp
     function scrollUp() {
         if (selectedIndex > 0) {
             setSelectedIndex(selectedIndex - 1)
@@ -88,6 +104,7 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
         }
     }
 
+    // on arrowDown
     function scrollDown() {
         if (selectedIndex < suggestions.length - 1) {
             setSelectedIndex(selectedIndex + 1)
@@ -96,16 +113,6 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
         if (listElement) {
             listElement.scrollTop = selectedIndex * optionHeight!;
         }
-    }
-
-    function setSearchValue(value: string) {
-        let searchValue = value;
-        if (!value) {
-            searchValue = inputValue.trim();
-            setInputValue(searchValue);
-        }
-        onSearch(searchValue);
-        clearSuggestions();
     }
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -122,9 +129,11 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
             setSelectedIndex(-1)
         }
     }
+    /* Key Press Functions - End */
 
     return(
         <div className="input-wrapper">
+            {/* Input Box */}
             <input id="search-bar" type="search" className="input-box" placeholder="Enter search"
                 onChange={handleInputChange}
                 value={inputValue}
@@ -134,10 +143,12 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
                 aria-autocomplete="list"
                 aria-controls="autocomplete-list"
             />
+            {/* Search Button */}
             <button id="search-button" className="search-button" onClick={() => setSearchValue(inputValue)} disabled={inputValue.trim().length === 0}>
                 <ReactSVG src={SearchIconSvg}></ReactSVG>
                 Search
             </button>
+            {/* Suggestion list */}
             {suggestions && suggestions.length > 0 && inputValue.trim().length > 2 && !hasError && (
                 <ul ref={listRef} className="suggestions-list" id="autocomplete-list" role="listbox">
                     {suggestions!.map((suggestion, index) => (
@@ -145,6 +156,7 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
                     ))}
                 </ul>
             )}
+            {/* Error Message when unable to retrieve suggestions */}
             {inputValue.trim().length > 2 && hasError && (
                 <ul ref={listRef} className="suggestions-list unselectable" id="autocomplete-list" role="listbox">
                     <b>Error retrieving suggestions.</b>
