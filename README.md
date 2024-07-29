@@ -19,6 +19,11 @@ Before you begin, ensure you have the following installed on your machine:
    ```bash
    npm install --legacy-peer-deps
 
+2. Install playwright:
+
+   ```bash
+   npx playwright install
+
 ### Running the Application
 
 1. To start the application locally, use the following command:
@@ -35,4 +40,13 @@ This will serve the application on http://localhost:3000. Open your browser and 
     ```bash
     npm run test
 
-The tests can be run without serving the application locally. The tests are simulated on Google Chrome, Microsoft Edge, Mobile Chrome, and Chromium.
+The script is configured to run without having to serve the application locally. The tests are simulated on Google Chrome, Microsoft Edge, Mobile Chrome, and Chromium.
+A html is generated on each run and will automatically be displayed after the test is complete. 
+
+![alt text](image.png)
+
+### Screenshot
+
+Below is a screenshot of the search application's user interface:
+
+![alt text](image-2.png)
