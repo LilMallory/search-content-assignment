@@ -125,7 +125,7 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
 
     return(
         <div className="input-wrapper">
-            <input type="search" className="input-box" placeholder="Enter search"
+            <input id="search-bar" type="search" className="input-box" placeholder="Enter search"
                 onChange={handleInputChange}
                 value={inputValue}
                 onKeyDown={(e) => handleKeyDown(e)}
@@ -134,14 +134,14 @@ const SearchBar = ({ onSearch } : SearchBarProps) => {
                 aria-autocomplete="list"
                 aria-controls="autocomplete-list"
             />
-            <button className="search-button" onClick={() => setSearchValue(inputValue)} disabled={inputValue.trim().length === 0}>
+            <button id="search-button" className="search-button" onClick={() => setSearchValue(inputValue)} disabled={inputValue.trim().length === 0}>
                 <ReactSVG src={SearchIconSvg}></ReactSVG>
                 Search
             </button>
             {suggestions && suggestions.length > 0 && inputValue.trim().length > 2 && !hasError && (
                 <ul ref={listRef} className="suggestions-list" id="autocomplete-list" role="listbox">
                     {suggestions!.map((suggestion, index) => (
-                        <li key={index} onClick={() => handleSuggestionClick(suggestion)} aria-selected={index === selectedIndex ? "true" : "false"} role="option">{BoldedText(suggestion, inputValue.trim(), false)}</li>
+                        <li key={index} className="suggestion-item" onClick={() => handleSuggestionClick(suggestion)} aria-selected={index === selectedIndex ? "true" : "false"} role="option">{BoldedText(suggestion, inputValue.trim(), false)}</li>
                     ))}
                 </ul>
             )}
